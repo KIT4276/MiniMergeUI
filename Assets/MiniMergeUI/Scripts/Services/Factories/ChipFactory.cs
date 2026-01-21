@@ -10,7 +10,7 @@ namespace MiniMergeUI.Services.Factories
     {
         private readonly GameCanvas _gameCanvas;
         private readonly GameObject _chipPrefab;
-
+        private readonly BoardState _boardState;
         private List<GameObject> _pull;
 
         private readonly List<Cell> _freeCells = new();
@@ -19,10 +19,11 @@ namespace MiniMergeUI.Services.Factories
 
         public List<Chip> ActivePull { get; private set; }
 
-        public ChipFactory(GameCanvas gameCanvas, GameObject chipPrefab)
+        public ChipFactory(GameCanvas gameCanvas, GameObject chipPrefab, BoardState boardState)
         {
             _gameCanvas = gameCanvas;
             _chipPrefab = chipPrefab;
+            _boardState = boardState;
             ActivePull = new();
         }
 
@@ -40,7 +41,7 @@ namespace MiniMergeUI.Services.Factories
             var cells = _gameCanvas.Cells;
             for (int i = 0; i < cells.Length; i++)
             {
-                if (!cells[i].IsOccupied)
+                if(!_boardState.IsOccupied(cells[i]))
                     _freeCells.Add(cells[i]);
             }
 
@@ -64,9 +65,10 @@ namespace MiniMergeUI.Services.Factories
             Chip chip = chipObj.GetComponent<Chip>();
             ActivePull.Add(chip);
             chip.Init(_gameCanvas.RectTransform, _gameCanvas.Canvas);
-            chip.SnapTo(_gameCanvas.Cells[Random.Range(0, _gameCanvas.Cells.Length)]);
 
-            cell.Occupy();
+            chip.SnapTo(_gameCanvas.Cells[Random.Range(0, _gameCanvas.Cells.Length)]);// делать через ChipsConductor
+            _boardState.Place(cell, chip);// делать через ChipsConductor
+
             return chip;
         }
     }

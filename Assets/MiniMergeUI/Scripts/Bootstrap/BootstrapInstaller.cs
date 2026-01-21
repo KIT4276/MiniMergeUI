@@ -15,6 +15,9 @@ namespace MiniMergeUI.Bootstrap
 
         public override void InstallBindings()
         {
+            Container.Bind<BoardState>()
+                .AsSingle();
+            
             Container.BindInterfacesAndSelfTo<GameCanvas>()
                 .FromComponentInNewPrefab(_gameCanvasPrefab)
             .AsSingle();

@@ -47,30 +47,33 @@ namespace MiniMergeUI.Services.Factories
             return chip;
         }
 
-        private void StartSpawn()
+        public bool TrySpawnRandomEmpty(out Chip chip)
         {
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_gameCanvas.GridRoot);
+            chip = null;
 
             _freeCells.Clear();
             var cells = _gameCanvas.Cells;
             for (int i = 0; i < cells.Length; i++)
             {
-                if(!_boardState.IsOccupied(cells[i]))
+                if (!_boardState.IsOccupied(cells[i]))
                     _freeCells.Add(cells[i]);
             }
 
-            int toSpawn = Mathf.Min(_chipStartCount, _freeCells.Count);
+            if (_freeCells.Count == 0)
+                return false;
 
-            for (int i = 0; i < toSpawn; i++)
-            {
-                int idx = Random.Range(0, _freeCells.Count);
-                Cell cell = _freeCells[idx];
-                _freeCells[idx] = _freeCells[^1];
-                _freeCells.RemoveAt(_freeCells.Count - 1);
+            var cell = _freeCells[Random.Range(0, _freeCells.Count)];
+            chip = Spawn(cell);
+            return true;
+        }
 
-                Spawn(cell);
-            }
+        private void StartSpawn()
+        {
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_gameCanvas.GridRoot);
+
+            for (int i = 0; i < _chipStartCount; i++)
+                TrySpawnRandomEmpty(out var chip);
         }
     }
 }

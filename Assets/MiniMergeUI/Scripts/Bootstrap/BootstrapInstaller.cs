@@ -18,7 +18,7 @@ namespace MiniMergeUI.Bootstrap
             Container.Bind<BoardState>()
                 .AsSingle();
 
-            Container.Bind< ChipPlacer>()
+            Container.Bind<ChipPlacer>()
                 .AsSingle();
 
             Container.Bind<ChipRegistry>()
@@ -36,6 +36,10 @@ namespace MiniMergeUI.Bootstrap
             Container.BindInterfacesAndSelfTo<ChipFactory>()
                 .AsSingle()
                 .WithArguments(_chipPrefab)
+                .NonLazy();
+
+            Container.BindInterfacesAndSelfTo<SpawnConductor>()
+                .AsSingle()
                 .NonLazy();
 
             Container.Bind<CellsConductor>()

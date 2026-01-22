@@ -690,6 +690,7 @@ MonoBehaviour:
   - {fileID: 3843946333319810625}
   - {fileID: 4176352236270548119}
   - {fileID: 4465393658862260583}
+  _spawnButton: {fileID: 5337869266129647964}
 --- !u!1 &4634288059791825809
 GameObject:
   m_ObjectHideFlags: 0

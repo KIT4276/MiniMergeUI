@@ -77,3 +77,4 @@ MonoBehaviour:
   _gameCanvasPrefab: {fileID: 3796442348699945851, guid: f9ea0011a8440c14c976a8046eaad154, type: 3}
   _dragControllerPrefab: {fileID: 8969804603080521033, guid: bdfc306f2202c46469694e364e17673f, type: 3}
   _chipPrefab: {fileID: 1442641327757568500, guid: 1a9b94dbe17615f4ab2f30dcdf78727d, type: 3}
+  _visualSO: {fileID: 11400000, guid: 2930987c6deed9d439860d96941127c9, type: 2}

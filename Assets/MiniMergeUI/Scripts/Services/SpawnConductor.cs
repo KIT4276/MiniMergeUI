@@ -1,7 +1,6 @@
 using MiniMergeUI.Services.Factories;
 using MiniMergeUI.View;
 using System;
-using UnityEngine;
 using Zenject;
 
 namespace MiniMergeUI.Services
@@ -27,8 +26,7 @@ namespace MiniMergeUI.Services
         {
             if (!_chipFactory.TrySpawnRandomEmpty(out _))
             {
-                Debug.Log("Ќет свободных клеток дл€ спавна.");
-                //  вывести UI-сообщение
+                _gameCanvas.ShowMessage();
             }
         }
     }

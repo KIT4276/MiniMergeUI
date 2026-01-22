@@ -117,7 +117,6 @@ namespace MiniMergeUI.Services
                 var chip = chips[i];
                 if (chip == null || !chip.gameObject.activeInHierarchy) continue;
 
-                //  лучше передавать камеру канваса, если не Overlay
                 if (!RectTransformUtility.RectangleContainsScreenPoint(chip.RectTransform, position, null))
                     continue;
 

@@ -20,6 +20,8 @@ namespace MiniMergeUI.Bootstrap
                 .FromInstance(_visualSO)
                 .AsSingle();
 
+            //VisualEffects
+
             Container.Bind<BoardState>()
                 .AsSingle();
 

@@ -18,7 +18,9 @@ namespace MiniMergeUI.Services
         {
             if (!_boardState.TryGetCell(_chosenChip, out var cell)) return;
 
-            _chipFactory.Spawn(cell, _chosenChip.Level + 1);
+            var type = occupant.Type;
+            var newChip = _chipFactory.Spawn(cell, _chosenChip.Level + 1, type);
+            newChip.Merge();
 
             _chipFactory.Despawn(occupant);
             _boardState.RemoveChip(occupant);

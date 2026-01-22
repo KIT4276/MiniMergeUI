@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +7,7 @@ namespace MiniMergeUI.View
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _icon;
+        [SerializeField] private VisualEffects _visualEffects;
 
         private RectTransform _space; 
         private Camera _uiCam;
@@ -52,17 +52,18 @@ namespace MiniMergeUI.View
             _rectTransform.anchoredPosition = local + _indent;
         }
 
-        public void EndDrag()
-        {
-        }
+        public void EndDrag() => 
+            _visualEffects.PlayEndDragPop();
 
         public void SnapTo(Cell cell)
         {
             var world = cell.RectTransform.TransformPoint(cell.RectTransform.rect.center);
             var local = (Vector2)_space.InverseTransformPoint(world);
-            _rectTransform.DOKill();
-            _rectTransform.DOAnchorPos(local, 0.15f);
+            _rectTransform.anchoredPosition = local;
         }
+
+        public void Merge()
+            => _visualEffects.PlayMergePop();
     }
 
     public enum ChipType

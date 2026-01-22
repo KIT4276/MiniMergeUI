@@ -36,7 +36,7 @@ namespace MiniMergeUI.Services.Factories
             StartSpawn();
         }
 
-        public Chip Spawn(Cell cell, int level)
+        public Chip Spawn(Cell cell, int level, ChipType type)
         {
             Chip chip = null;
 
@@ -55,7 +55,7 @@ namespace MiniMergeUI.Services.Factories
             }
 
             chip.RectTransform.anchoredPosition = new Vector2(0, 0);
-            var type = _visuals.GetRandomType();
+            
             chip.SetIdentity(type, level, sprite: _visuals.GetSprite(type));
 
             _placer.Place(chip, cell);
@@ -80,7 +80,8 @@ namespace MiniMergeUI.Services.Factories
                 return false;
 
             var cell = _freeCells[Random.Range(0, _freeCells.Count)];
-            chip = Spawn(cell, 0);
+            var type = _visuals.GetRandomType();
+            chip = Spawn(cell, 0, type);
             return true;
         }
 

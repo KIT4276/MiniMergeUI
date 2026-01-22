@@ -31,17 +31,6 @@ namespace MiniMergeUI.Services
             _chipToCell[chip] = cell;
         }
 
-        //public void Clear(Cell cell)
-        //{
-        //    if (cell == null) return;
-
-        //    if (_cellToChip.TryGetValue(cell, out var chip))
-        //    {
-        //        _cellToChip.Remove(cell);
-        //        _chipToCell.Remove(chip);
-        //    }
-        //}
-
         public void RemoveChip(Chip chip)
         {
             if (chip == null) return;

@@ -11,7 +11,9 @@ namespace MiniMergeUI.View
         private Camera _uiCam;
         private Vector2 _indent;
 
-        public RectTransform RectTransform => _rectTransform;
+        public RectTransform RectTransform =>
+            _rectTransform;
+
         public void Init(RectTransform space, Canvas canvas)
         {
             _space = space;
@@ -33,7 +35,6 @@ namespace MiniMergeUI.View
 
         public void EndDrag()
         {
-            //TODO
         }
 
         public void SnapTo(Cell cell)

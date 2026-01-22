@@ -32,6 +32,7 @@ namespace MiniMergeUI.Services
         private void StopDrag()
         {
             DragFinished?.Invoke(Input.mousePosition);
+            _lastMousePosition = Input.mousePosition;
         }
 
         private void DragIfMouseMoved()

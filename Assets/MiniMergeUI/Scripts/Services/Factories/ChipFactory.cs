@@ -11,25 +11,40 @@ namespace MiniMergeUI.Services.Factories
         private readonly GameCanvas _gameCanvas;
         private readonly GameObject _chipPrefab;
         private readonly BoardState _boardState;
-        private List<GameObject> _pull;
+        private readonly ChipPlacer _placer;
+        private readonly ChipRegistry _chipRegistry;
 
         private readonly List<Cell> _freeCells = new();
 
         private int _chipStartCount = 3; // - TODO to configs
 
-        public List<Chip> ActivePull { get; private set; }
-
-        public ChipFactory(GameCanvas gameCanvas, GameObject chipPrefab, BoardState boardState)
+        public ChipFactory(GameCanvas gameCanvas, GameObject chipPrefab, BoardState boardState,
+                      ChipPlacer placer, ChipRegistry registry)
         {
             _gameCanvas = gameCanvas;
             _chipPrefab = chipPrefab;
             _boardState = boardState;
-            ActivePull = new();
+            _placer = placer;
+            _chipRegistry = registry;
         }
 
         public void Initialize()
         {
             StartSpawn();
+        }
+
+        public Chip Spawn(Cell cell)
+        {
+            
+            var chipObj = Object.Instantiate(_chipPrefab, _gameCanvas.RectTransform, false);
+            var chip = chipObj.GetComponent<Chip>();
+
+            chip.Init(_gameCanvas.RectTransform, _gameCanvas.Canvas);
+
+            _placer.Place(chip, cell);      
+            _chipRegistry.Add(chip);           
+
+            return chip;
         }
 
         private void StartSpawn()
@@ -56,20 +71,6 @@ namespace MiniMergeUI.Services.Factories
 
                 Spawn(cell);
             }
-        }
-
-        private Chip Spawn(Cell cell)
-        {
-            GameObject chipObj = GameObject.Instantiate(_chipPrefab, Vector3.zero, Quaternion.identity);
-            chipObj.transform.parent = _gameCanvas.RectTransform;
-            Chip chip = chipObj.GetComponent<Chip>();
-            ActivePull.Add(chip);
-            chip.Init(_gameCanvas.RectTransform, _gameCanvas.Canvas);
-
-            chip.SnapTo(_gameCanvas.Cells[Random.Range(0, _gameCanvas.Cells.Length)]);// делать через ChipsConductor
-            _boardState.Place(cell, chip);// делать через ChipsConductor
-
-            return chip;
         }
     }
 }

@@ -1,29 +1,55 @@
 using MiniMergeUI.View;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MiniMergeUI.Services
 {
     public class BoardState
     {
-        private Dictionary<Cell, Chip> _map = new();
+        private readonly Dictionary<Cell, Chip> _cellToChip = new();
+        private readonly Dictionary<Chip, Cell> _chipToCell = new();
 
-        public bool IsOccupied(Cell cell) =>
-            _map.ContainsKey(cell);
+        public bool IsOccupied(Cell cell) => 
+            cell != null && _cellToChip.ContainsKey(cell);
 
         public bool TryGetOccupant(Cell cell, out Chip chip) =>
-            _map.TryGetValue(cell, out chip);
+            _cellToChip.TryGetValue(cell, out chip);
 
-        public void Place(Cell cell, Chip chip) => 
-            _map[cell] = chip;
+        public bool TryGetCell(Chip chip, out Cell cell) =>
+            _chipToCell.TryGetValue(chip, out cell);
 
-        public void Clear(Cell cell) => 
-            _map.Remove(cell);
-
-        public void Move(Cell from, Cell to, Chip chip)
+        public void Place(Cell cell, Chip chip)
         {
-            _map.Remove(from);
-            _map[to] = chip;
+            if (cell == null || chip == null) return;
+
+            if (_cellToChip.TryGetValue(cell, out var prevChip))
+                _chipToCell.Remove(prevChip);
+
+            if (_chipToCell.TryGetValue(chip, out var prevCell))
+                _cellToChip.Remove(prevCell);
+
+            _cellToChip[cell] = chip;
+            _chipToCell[chip] = cell;
+        }
+
+        //public void Clear(Cell cell)
+        //{
+        //    if (cell == null) return;
+
+        //    if (_cellToChip.TryGetValue(cell, out var chip))
+        //    {
+        //        _cellToChip.Remove(cell);
+        //        _chipToCell.Remove(chip);
+        //    }
+        //}
+
+        public void RemoveChip(Chip chip)
+        {
+            if (chip == null) return;
+            if (_chipToCell.TryGetValue(chip, out var cell))
+            {
+                _chipToCell.Remove(chip);
+                _cellToChip.Remove(cell);
+            }
         }
     }
 }

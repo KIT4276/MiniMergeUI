@@ -17,7 +17,13 @@ namespace MiniMergeUI.Bootstrap
         {
             Container.Bind<BoardState>()
                 .AsSingle();
-            
+
+            Container.Bind< ChipPlacer>()
+                .AsSingle();
+
+            Container.Bind<ChipRegistry>()
+                .AsSingle();
+
             Container.BindInterfacesAndSelfTo<GameCanvas>()
                 .FromComponentInNewPrefab(_gameCanvasPrefab)
             .AsSingle();
@@ -29,13 +35,15 @@ namespace MiniMergeUI.Bootstrap
 
             Container.BindInterfacesAndSelfTo<ChipFactory>()
                 .AsSingle()
-                .WithArguments(_chipPrefab);
+                .WithArguments(_chipPrefab)
+                .NonLazy();
 
             Container.Bind<CellsConductor>()
                 .AsSingle();
 
             Container.BindInterfacesAndSelfTo<ChipsConductor>()
-                 .AsSingle();
+                 .AsSingle()
+                 .NonLazy();
         }
     }
 }

@@ -13,19 +13,22 @@ namespace MiniMergeUI.Services.Factories
         private readonly BoardState _boardState;
         private readonly ChipPlacer _placer;
         private readonly ChipRegistry _chipRegistry;
-
+        private readonly ChipVisualLibrary _visuals;
         private readonly List<Cell> _freeCells = new();
 
         private int _chipStartCount = 3; // - TODO to configs
 
+        private List<Chip> _chipsPpool = new();
+
         public ChipFactory(GameCanvas gameCanvas, GameObject chipPrefab, BoardState boardState,
-                      ChipPlacer placer, ChipRegistry registry)
+                      ChipPlacer placer, ChipRegistry registry, ChipVisualLibrary visuals)
         {
             _gameCanvas = gameCanvas;
             _chipPrefab = chipPrefab;
             _boardState = boardState;
             _placer = placer;
             _chipRegistry = registry;
+            _visuals = visuals;
         }
 
         public void Initialize()
@@ -33,16 +36,30 @@ namespace MiniMergeUI.Services.Factories
             StartSpawn();
         }
 
-        public Chip Spawn(Cell cell)
+        public Chip Spawn(Cell cell, int level)
         {
-            
-            var chipObj = Object.Instantiate(_chipPrefab, _gameCanvas.RectTransform, false);
-            var chip = chipObj.GetComponent<Chip>();
+            Chip chip = null;
 
-            chip.Init(_gameCanvas.RectTransform, _gameCanvas.Canvas);
+            if (_chipsPpool.Count == 0)
+            {
+                var chipObj = Object.Instantiate(_chipPrefab, _gameCanvas.RectTransform, false);
+                chip = chipObj.GetComponent<Chip>();
 
-            _placer.Place(chip, cell);      
-            _chipRegistry.Add(chip);           
+                chip.Init(_gameCanvas.RectTransform, _gameCanvas.Canvas);
+            }
+            else
+            {
+                chip = _chipsPpool[_chipsPpool.Count - 1];
+                chip.gameObject.SetActive(true);
+                _chipsPpool.Remove(chip);
+            }
+
+            chip.RectTransform.anchoredPosition = new Vector2(0, 0);
+            var type = _visuals.GetRandomType();
+            chip.SetIdentity(type, level, sprite: _visuals.GetSprite(type));
+
+            _placer.Place(chip, cell);
+            _chipRegistry.Add(chip);
 
             return chip;
         }
@@ -63,8 +80,15 @@ namespace MiniMergeUI.Services.Factories
                 return false;
 
             var cell = _freeCells[Random.Range(0, _freeCells.Count)];
-            chip = Spawn(cell);
+            chip = Spawn(cell, 0);
             return true;
+        }
+
+        public void Despawn(Chip occupant)
+        {
+            occupant.gameObject.SetActive(false);
+            _chipRegistry.Remove(occupant);
+            _chipsPpool.Add(occupant);
         }
 
         private void StartSpawn()

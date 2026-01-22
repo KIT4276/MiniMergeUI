@@ -12,18 +12,20 @@ namespace MiniMergeUI.Services
         private readonly BoardState _boardState;
         private readonly ChipPlacer _chipPlacer;
         private readonly ChipRegistry _chipRegistry;
+        private readonly MergeServices _mergeServices;
 
         private Chip _chosenChip;
         private Cell _fromCell;
 
         public ChipsConductor(DragHandler drag, CellsConductor cellsConductor, BoardState board,
-                          ChipPlacer placer, ChipRegistry registry)
+                          ChipPlacer placer, ChipRegistry registry, MergeServices mergeServices)
         {
             _dragHandler = drag;
             _cellsConductor = cellsConductor;
             _boardState = board;
             _chipPlacer = placer;
             _chipRegistry = registry;
+            _mergeServices = mergeServices;
         }
 
         public void Initialize()
@@ -79,9 +81,15 @@ namespace MiniMergeUI.Services
             
             if (_boardState.TryGetOccupant(targetCell, out var occupant))
             {
-                //TODO  заменить на CanMerge(...) ? DoMerge(...) : Return
-                Debug.Log("проверяем, можно ли смёрджить");
-                _chipPlacer.Place(_chosenChip, _fromCell);
+                if (occupant.Type == _chosenChip.Type && occupant.Level == _chosenChip.Level)
+                {
+                    _chipPlacer.Place(_chosenChip, targetCell);
+                    _mergeServices.Merge(_chosenChip, occupant);
+                }
+                else
+                {
+                    _chipPlacer.Place(_chosenChip, _fromCell);
+                }
             }
             else
             {

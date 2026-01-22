@@ -11,10 +11,15 @@ namespace MiniMergeUI.Bootstrap
         [SerializeField] private GameObject _gameCanvasPrefab;
         [SerializeField] private GameObject _dragControllerPrefab;
         [SerializeField] private GameObject _chipPrefab;
+        [SerializeField] private ChipVisualLibrary _visualSO;
 
 
         public override void InstallBindings()
         {
+            Container.Bind<ChipVisualLibrary>()
+                .FromInstance(_visualSO)
+                .AsSingle();
+
             Container.Bind<BoardState>()
                 .AsSingle();
 
@@ -37,6 +42,9 @@ namespace MiniMergeUI.Bootstrap
                 .AsSingle()
                 .WithArguments(_chipPrefab)
                 .NonLazy();
+
+            Container.Bind<MergeServices>()
+                .AsSingle();
 
             Container.BindInterfacesAndSelfTo<SpawnConductor>()
                 .AsSingle()

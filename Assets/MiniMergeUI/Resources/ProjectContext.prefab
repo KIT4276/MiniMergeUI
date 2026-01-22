@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4392654077424759294}
   - component: {fileID: 32660259047418106}
+  - component: {fileID: 3177552634716804834}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -45,7 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 3177552634716804834}
   _installerPrefabs: []
   _parentNewObjectsUnderContext: 1
   _editorReflectionBakingCoverageMode: 0
@@ -60,3 +62,18 @@ MonoBehaviour:
       _missingHandlerDefaultResponse: 2
       _requireStrictUnsubscribe: 0
       _defaultAsyncTickPriority: 1
+--- !u!114 &3177552634716804834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156264517817425180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c343525fcc0587c4e815ca00b64353c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameCanvasPrefab: {fileID: 3796442348699945851, guid: f9ea0011a8440c14c976a8046eaad154, type: 3}
+  _dragControllerPrefab: {fileID: 8969804603080521033, guid: bdfc306f2202c46469694e364e17673f, type: 3}
+  _chipPrefab: {fileID: 1442641327757568500, guid: 1a9b94dbe17615f4ab2f30dcdf78727d, type: 3}

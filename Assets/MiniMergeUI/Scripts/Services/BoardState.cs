@@ -1,4 +1,5 @@
 using MiniMergeUI.View;
+using System;
 using System.Collections.Generic;
 
 namespace MiniMergeUI.Services
@@ -39,6 +40,12 @@ namespace MiniMergeUI.Services
                 _chipToCell.Remove(chip);
                 _cellToChip.Remove(cell);
             }
+        }
+
+        public void ClearBoard()
+        {
+            _chipToCell.Clear();
+            _cellToChip.Clear();
         }
     }
 }

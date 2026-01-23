@@ -20,8 +20,6 @@ namespace MiniMergeUI.Bootstrap
                 .FromInstance(_visualSO)
                 .AsSingle();
 
-            //VisualEffects
-
             Container.Bind<BoardState>()
                 .AsSingle();
 
@@ -44,6 +42,9 @@ namespace MiniMergeUI.Bootstrap
                 .AsSingle()
                 .WithArguments(_chipPrefab)
                 .NonLazy();
+
+            Container.BindInterfacesAndSelfTo<RestartService>()
+                .AsSingle();
 
             Container.Bind<MergeServices>()
                 .AsSingle();

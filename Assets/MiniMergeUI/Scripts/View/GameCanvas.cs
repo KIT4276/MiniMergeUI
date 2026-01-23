@@ -12,6 +12,7 @@ namespace MiniMergeUI.View
         [SerializeField] private Cell[] _cells;
         [Space]
         [SerializeField] private Button _spawnButton;
+        [SerializeField] private Button _restartButton;
         [SerializeField] private GameObject _fadeInTablet;
 
         public Canvas Canvas { get => _canvas; }
@@ -20,11 +21,14 @@ namespace MiniMergeUI.View
         public Cell[] Cells { get => _cells; }
 
         public event Action SpawnClicked;
+        public event Action RestartClicked;
 
         private void Awake()
         {
             if (_spawnButton != null)
                 _spawnButton.onClick.AddListener(OnSpawnClicked);
+            if(_restartButton !=null)
+                _restartButton.onClick.AddListener(OnRestartCliced);
         }
 
         public void ShowMessage() => 
@@ -33,10 +37,15 @@ namespace MiniMergeUI.View
         private void OnSpawnClicked() => 
             SpawnClicked?.Invoke();
 
+        private void OnRestartCliced()=>
+            RestartClicked?.Invoke();
+
         private void OnDestroy()
         {
             if (_spawnButton != null)
                 _spawnButton.onClick.RemoveListener(OnSpawnClicked);
+            if (_restartButton != null)
+                _restartButton.onClick.RemoveListener(OnRestartCliced);
         }
     }
 }

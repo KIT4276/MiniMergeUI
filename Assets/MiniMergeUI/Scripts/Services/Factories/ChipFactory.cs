@@ -92,13 +92,20 @@ namespace MiniMergeUI.Services.Factories
             _chipsPpool.Add(occupant);
         }
 
-        private void StartSpawn()
+        public void StartSpawn()
         {
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_gameCanvas.GridRoot);
 
             for (int i = 0; i < _chipStartCount; i++)
                 TrySpawnRandomEmpty(out var chip);
+        }
+
+        public void DespawnAll()
+        {
+            var chips = _chipRegistry.ActiveChips;
+            for (int i = chips.Count - 1; i >= 0; i--)
+                Despawn(chips[i]);
         }
     }
 }
